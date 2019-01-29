@@ -32,7 +32,8 @@
     "webpack-dev-server": "^3.1.9"
   },
   "scripts": {
-    "build": "node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=production webpack",
-    "start": "webpack-dev-server --port 5000 --content-base public"
+    "build": "npm install && cross-env NODE_ENV=production webpack",
+    "start": "webpack-dev-server --port 5000 --content-base public",
+    "heroku-build": "npm install",
   }
 }
