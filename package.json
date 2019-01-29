@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "engines": {
-    "node": "10.15.0"
+    "node": "10.14.2"
   },
   "devDependencies": {
     "autoprefixer": "^9.4.6",
@@ -32,7 +32,7 @@
     "webpack-dev-server": "^3.1.9"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=production webpack",
+    "start": "npm install && cross-env NODE_ENV=production webpack",
     "dev": "webpack-dev-server --port 5000 --content-base public"
   }
 }
