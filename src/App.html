@@ -1,0 +1,47 @@
+<header class="navbar">
+  <section class="navbar-section">
+    <a href="/" class="navbar-brand" data-navigo>
+      {@html logo}
+    </a>
+  </section>
+  <section class="navbar-section">
+    <a href="/products" class="btn btn-link{ $path === '/products' ? ' active' : '' }"  data-navigo>Products</a>
+    <a href="/products/42" class="btn btn-link{ $path === '/products/:id' ? ' active' : '' }"  data-navigo>Product 42</a>
+    <a href="/jobs" class="btn btn-link{ $path === '/jobs' ? ' active' : '' }"  data-navigo>Jobs</a>
+    <a href="/about" class="btn btn-link{ $path === '/about' ? ' active' : '' }"  data-navigo>About</a>
+  </section>
+
+  <!-- <section class="navbar-section">
+    <div class="input-group input-inline">
+      <input class="form-input" type="text" placeholder="search">
+      <button class="btn btn-primary input-group-btn">Search</button>
+    </div>
+  </section> -->
+</header>
+
+<svelte:component this={$Page} id={$id}/>
+
+<style>
+  :global(.navbar-brand) svg {
+    display: inline-block;
+    vertical-align: middle;
+    width: 240px;
+  }
+  a.active {
+    font-weight: bold;
+  }
+</style>
+
+<script>
+  import router from './router';
+  import logo from './images/logo.svg';
+
+  export default {
+    data() {
+      return { logo }
+    },
+    oncreate() {
+      router.updatePageLinks();
+    }
+  }
+</script>

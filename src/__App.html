@@ -1,0 +1,262 @@
+<h1 style="color:{color}">Hello {name}!</h1>
+{content}
+{@html content}
+
+<h3 class="blue">Questions</h3>
+<!-- if -->
+{#if questions}
+	<ul>
+	<!-- array loop -->
+	{#each questions as question, idx}
+		<li>{idx + 1}. {question}</li>
+	{/each}
+	</ul>
+
+	<!-- promise -->
+	{#await promise}
+		<p>wait for it...</p>
+	{:then}
+		<p>the answer is "{answer}"!</p>
+	{:catch error}
+		<p>well that's odd</p>
+	{/await}
+{:else}
+	<p>No questions found.</p>
+{/if}
+
+<!-- object loop -->
+{#each Object.entries(animals) as [animal, names]}
+	<p>{animal}: {names.join(" and ")}</p>
+{/each}
+
+<p hidden={hideParagraph}>You can hide this paragraph.</p>
+
+<!-- directives -->
+<h3>Counter</h3>
+<p ref:foo>Count: {count}</p>
+<button on:click="set({ count: count + 1 })">+1</button>
+
+<Widget />
+
+<p>
+	The time is
+	<strong>{hours}:{minutes}:{seconds}</strong>
+</p>
+
+<p>
+	{num1} + {num2} = {externalFunc}
+</p>
+
+<!-- events -->
+{#each categories as category}
+	<a href on:click|stopPropagation|preventDefault|once="select(category)">select {category}</a>
+{/each}
+
+<div class="box" on:mousemove="set({ x: event.clientX, y: event.clientY })">
+	coords: {x},{y}
+</div>
+
+<!-- custom event -->
+<button on:longpress="set({ done: true })">click and hold</button>
+
+{#if done}
+	<p transition:fade>clicked and held</p>
+{/if}
+
+<form on:submit|preventDefault="handleSubmit(event)">
+	<input bind:value=name type=text>
+	<button type=submit>Say hello</button>
+</form>
+
+<div class="wrapper">
+	<button on:click="toggleLanguage()" use:tooltip="translations[language].tooltip">
+		{language}
+	</button>
+</div>
+
+<ul class="links">
+	<li class:active="url === '/'"><a href="/" on:click="goto(event)">Home</a></li>
+	<li class:active="url.startsWith('/blog')"><a href="/blog/" on:click="goto(event)">Blog</a></li>
+	<li class:active="url.startsWith('/about')"><a href="/about/" on:click="goto(event)">About</a></li>
+</ul>
+
+<style>
+	@import './App.css';
+
+	h3.blue {
+		color: blue;
+	}
+
+	:global(h3) {
+		color: red;
+	}
+
+	/* this gets unused warning */
+	/* .active {
+		color: purple;
+	} */
+
+	ref:foo {
+		color: purple;
+	}
+
+	.box {
+		width: calc(100% - 2rem);
+		height: 100px;
+		border: 2px dotted pink;
+		margin: 1rem;
+	}
+
+	a {
+		padding: 1rem;
+	}
+
+	.wrapper {
+		position: relative;
+	}
+	:global(.tooltip) {
+		position: absolute;
+		bottom: 100%;
+	}
+
+	.links {
+		list-style: none;
+	}
+	.links li {
+		float: left;
+		padding: 10px;
+	}
+	/* classes added this way are processed with encapsulated styles, no need for :global() */
+	.active {
+		background: #eee;
+	}
+</style>
+
+<script>
+	import { fade } from 'svelte-transitions';
+	// component file
+	import Widget from './Widget.html';
+	// function file
+	import externalFunc from './_external_file';
+
+	export default {
+		components: { Widget },
+		// promise example
+		data() {
+			return {
+				promise: new Promise(fulfil => {
+					setTimeout(() => fulfil(), 3000);
+				}),
+				// this will overwrite main.js App data
+				// count: 99
+				time: new Date(),
+				num1: 100,
+				num2: 200,
+
+				categories: [ 'animal', 'vegetable', 'mineral' ]
+			};
+		},
+
+		methods: {
+			select(name) {
+				alert(`selected ${name}`); // seriously, please don't do this
+			},
+
+			handleSubmit(e) {
+				const { name } = this.get();
+				alert(`Hello ${name}!`);
+			},
+
+			toggleLanguage() {
+				const { language } = this.get();
+				this.set({
+					language: language === 'en' ? 'fr' : 'en'
+				});
+			},
+
+			goto(event) {
+				event.preventDefault();
+				this.set({ url: event.target.pathname });
+			}
+		},
+
+		computed: {
+			hours: ({ time }) => time.getHours(),
+			minutes: ({ time }) => time.getMinutes(),
+			seconds: ({ time }) => time.getSeconds(),
+			externalFunc: ({ num1, num2 }) => externalFunc(num1, num2)
+		},
+
+		transitions: { fade },
+
+		oncreate() {
+			// using refs
+			const { active } = this.get();
+			if (active) this.refs.paragraph.classList.add('active');
+		},
+
+		events: {
+			longpress(node, callback) {
+				function onmousedown(event) {
+					const timeout = setTimeout(() => callback(event), 1000);
+
+					function cancel() {
+						clearTimeout(timeout);
+						node.removeEventListener('mouseup', cancel, false);
+					}
+
+					node.addEventListener('mouseup', cancel, false);
+				}
+
+				node.addEventListener('mousedown', onmousedown, false);
+
+				return {
+					destroy() {
+						node.removeEventListener('mousedown', onmousedown, false);
+					}
+				};
+			}
+		},
+
+		actions: {
+			tooltip(node, text) {
+				const tooltip = document.createElement('div');
+				tooltip.textContent = text;
+				tooltip.className = 'tooltip';
+
+				function append() {
+					document.querySelector('.wrapper').appendChild(tooltip);
+				}
+
+				function remove() {
+					tooltip.remove();
+				}
+
+				node.addEventListener('mouseenter', append);
+				node.addEventListener('mouseleave', remove);
+
+				return {
+					update(text) {
+						tooltip.textContent = text;
+					},
+
+					destroy() {
+						tooltip.remove();
+						node.removeEventListener('mouseenter', append);
+						node.removeEventListener('mouseleave', remove);
+					}
+				}
+
+				return {
+					update(text) {
+						tooltip.textContent = text;
+					},
+
+					destroy() {
+						tooltip.remove();
+					}
+				}
+			}
+		}
+	};
+</script>
