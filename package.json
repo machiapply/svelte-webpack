@@ -32,7 +32,7 @@
     "webpack-dev-server": "^3.1.9"
   },
   "scripts": {
-    "build": "npm install && cross-env NODE_ENV=production webpack",
-    "start": "webpack-dev-server --port 5000 --content-base public"
+    "build": "webpack-dev-server --port 5000 --content-base public",
+    "start": "npm install && cross-env NODE_ENV=production webpack"
   }
 }
