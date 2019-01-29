@@ -1,7 +1,7 @@
 {
   "name": "svelte-app",
   "version": "1.0.0",
-  "main": "src/index.js",
+  "main": "index.js",
   "engines": {
     "node": "10.14.2"
   },
@@ -33,7 +33,7 @@
   },
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack",
-    "start": "webpack-dev-server --port 5000 --content-base public",
-    "heroku-postbuild": "npm install && npm run build"
+    "dev": "webpack-dev-server --port 5000 --content-base public",
+    "start": "npm install && npm run build"
   }
 }
