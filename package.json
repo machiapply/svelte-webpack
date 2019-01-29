@@ -5,7 +5,7 @@
   "engines": {
     "node": "10.14.2"
   },
-  "devDependencies": {
+  "dependencies": {
     "autoprefixer": "^9.4.6",
     "cross-env": "^5.1.5",
     "css-loader": "^1.0.0",
