@@ -2,6 +2,9 @@
   "name": "svelte-app",
   "version": "1.0.0",
   "main": "index.js",
+  "engines": {
+    "node": "10.15.0"
+  },
   "devDependencies": {
     "autoprefixer": "^9.4.6",
     "cross-env": "^5.1.5",
