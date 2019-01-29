@@ -1,1 +1,1 @@
-web: npm run herou-build
+web: npm run heroku-build
