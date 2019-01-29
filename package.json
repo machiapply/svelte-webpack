@@ -29,7 +29,7 @@
     "webpack-dev-server": "^3.1.9"
   },
   "scripts": {
-    "build": "cross-env NODE_ENV=production webpack",
-    "start": "webpack-dev-server --port 5000 --content-base public"
+    "start": "cross-env NODE_ENV=production webpack",
+    "dev": "webpack-dev-server --port 5000 --content-base public"
   }
 }
