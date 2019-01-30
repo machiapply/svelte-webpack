@@ -1,8 +1,19 @@
 {
   "root": "public/",
+  "https_only": true,
   "headers": {
-    "/**.js": {
+    "/**": {
       "Cache-Control": "public, max-age=0, must-revalidate"
     }
+  },
+  "routes": {
+    "/**": "index.html"
+  },
+  "encoding": "UTF-8",
+  "clean_urls": true,
+  "error_page": "public/500.html",
+  "logging": {
+    "access": true,
+    "error": "error"
   }
 }
