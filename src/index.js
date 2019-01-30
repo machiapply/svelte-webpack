@@ -17,7 +17,7 @@ const logRoute = () => {
 router.on({
   '/products/:id': (params) => {
     logRoute();
-    store.set({ Page: Product, path: '/products/:id', id: params.id });
+    store.set({ Page: Product, path: '/products', id: params.id });
   },
   '/products': () => {
     logRoute();
@@ -41,6 +41,6 @@ router.on({
 window.store = store; // useful for debugging!
 
 new App({
-  target: document.querySelector('main'),
+  target: document.querySelector('root'),
   store
 });

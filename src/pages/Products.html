@@ -4,24 +4,26 @@
 <!-- {#each list.getAllFields as category}
 	<a href on:click|stopPropagation|preventDefault|once="select(category)">select {category}</a>
 {/each} -->
+<ul>
+{#each products as product}
+  <li>
+    <a href="/products/{product}" data-navigo>Product {product}</a>
+  </li>
+{/each}
+</ul>
 
 
 <script>
-  // import { query } from 'svelte-apollo';
-  // import { FETCH_ALL_FIELDS } from '../api/field';
+  import router from '../router';
 
-  // export default {
-  //   data() {
-  //     return {
-  //       // static query
-  //       list: query(FETCH_ALL_FIELDS, { variables: { active: true, season: 2019 } }),
-  //       search: ''
-  //     };
-  //   },
-
-  //   computed: {
-  //     dynamic query
-  //     results: ({ search }) => query(SEARCH_BOOKS, { variables: { search } })
-  //   }
-  // }
+  export default {
+    data() {
+      return {
+        products: [10,20,30,40,50]
+      }
+    },
+    oncreate() {
+      router.updatePageLinks();
+    }
+  }
 </script>
