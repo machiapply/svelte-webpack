@@ -1,7 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-// const HtmlWebpackPlugin = require('html-webpack-plugin');
 const dotenv = require('dotenv');
 
 // using default .env, overwrite on server settings (eg heroku)
@@ -110,15 +109,11 @@ module.exports = {
 		]
 	},
 	mode,
+	// nothing for heroku, but important for webpack dev server
   devServer: {
     historyApiFallback: true,
   },
 	plugins: [
-		// IF THE SITE NAV IS HASH HANDLED, USE THIS
-    // new HtmlWebpackPlugin({
-		// 	template: path.resolve(__dirname, 'public/index.html'),
-		// 	hash: true,
-    // }),
 		new MiniCssExtractPlugin({
 			filename: '[name].css',
 			chunkFilename: '[name].[id].css'
