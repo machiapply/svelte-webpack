@@ -22,7 +22,6 @@
 @import "spectre.css/src/layout";
 @import "spectre.css/src/hero";
 @import "spectre.css/src/navbar";
-@import "navbar";
 
 // Components
 @import "spectre.css/src/accordions";
@@ -49,3 +48,27 @@
 // Utility classes
 @import "spectre.css/src/animations";
 @import "spectre.css/src/utilities";
+
+.navbar {
+  position: relative;
+  padding: $gutter 0;
+  min-height: 5rem;
+
+  &:after {
+    content: '';
+    width: 100vw;
+    height: 100%;
+    background: #fff;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-left: -50vw;
+    box-shadow: 0 0.25rem 1rem rgba(0,0,0,0.1);
+    z-index: -1;
+  }
+}
+
+.card {
+  height: calc(100% - 1rem);
+  margin-bottom: 1rem;
+}
