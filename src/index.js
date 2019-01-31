@@ -1,13 +1,15 @@
 import router from './router';
 import { Store } from 'svelte/store';
 import App from './App.html';
-import { Home, Products, Product, Jobs, About } from './pages';
+import { Home, Products, Product, Jobs, Contact } from './pages';
+import products from './products';
+
 import './styles/styles.scss';
 
 const store = new Store({
-  // Page value has to be equal to one of comopents
   Page: Home,
   id: null,
+  products
 });
 
 const logRoute = () => {
@@ -27,9 +29,9 @@ router.on({
     logRoute();
     store.set({ Page: Jobs, path: '/jobs', id: null });
   },
-  '/about': () => {
+  '/contact': () => {
     logRoute();
-    store.set({ Page: About, path: '/about', id: null });
+    store.set({ Page: Contact, path: '/contact', id: null });
   },
   '/': () => {
     logRoute();

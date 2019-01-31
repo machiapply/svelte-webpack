@@ -1,1 +1,28 @@
-<h1>Product # {id}</h1>
+{#if product}
+<p>
+  <a href on:click|preventDefault="goBack()">&lt;&nbsp; Back</a>
+</p>
+
+<h1>{product.name} ({product.id})</h1>
+<figure>
+  <img src="{product.image}" alt="{product.name}"  class="img-responsive" />
+</figure>
+{@html product.description}
+{/if}
+
+<script>
+  export default {
+    methods: {
+      goBack() {
+        history.back();
+      }
+    },
+
+    oncreate() {
+      const { id } = this.get();
+      const { products } = this.store.get();
+      const product = (products || []).find(prod => prod.id === Number(id));
+      this.set({ product });
+    }
+  }
+</script>

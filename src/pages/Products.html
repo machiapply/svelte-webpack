@@ -1,27 +1,34 @@
 <h1>Products</h1>
 
-<!-- events -->
-<!-- {#each list.getAllFields as category}
-	<a href on:click|stopPropagation|preventDefault|once="select(category)">select {category}</a>
-{/each} -->
-<ul>
-{#each products as product}
-  <li>
-    <a href="/products/{product}" data-navigo>Product {product}</a>
-  </li>
+<div class="columns">
+{#each $products as product}
+<div class="column col-4 col-xs-12">
+  <div class="card">
+    <div class="card-image">
+      <a  href="/products/{product.id}" data-navigo>
+        <img src="{product.image}" class="img-responsive" alt="{product.name}">
+      </a>
+    </div>
+    <div class="card-header">
+      <div class="card-title h5"><a  href="/products/{product.id}" data-navigo>{product.name}</a></div>
+      <div class="card-subtitle text-gray">#{product.id}</div>
+    </div>
+    <div class="card-body">
+      {product.excerpt}
+    </div>
+    <div class="card-footer">
+      <a  href="/products/{product.id}" class="btn btn-primary" data-navigo>View more</a>
+    </div>
+  </div>
+</div>
 {/each}
-</ul>
+</div>
 
 
 <script>
   import router from '../router';
 
   export default {
-    data() {
-      return {
-        products: [10,20,30,40,50]
-      }
-    },
     oncreate() {
       router.updatePageLinks();
     }
