@@ -1,7 +1,7 @@
 import router from './router';
 import { Store } from 'svelte/store';
 import App from './App.html';
-import { Home, Products, Product, Jobs, Contact } from './pages';
+import { Home, Products, Product, About, Contact } from './pages';
 import products from './products';
 
 import './styles/styles.scss';
@@ -25,9 +25,9 @@ router.on({
     logRoute();
     store.set({ Page: Products, path: '/products', id: null });
   },
-  '/jobs': () => {
+  '/about': () => {
     logRoute();
-    store.set({ Page: Jobs, path: '/jobs', id: null });
+    store.set({ Page: About, path: '/about', id: null });
   },
   '/contact': () => {
     logRoute();
